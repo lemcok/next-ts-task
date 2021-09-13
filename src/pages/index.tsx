@@ -13,13 +13,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={s.main}>
-        <h1 className={s.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
         <p className={s.description}>
-          Get started by editing{' '}
-          <code className={s.code}>pages/index.js</code>
+          Task app{' '}
         </p>
         <Task />
       </main>

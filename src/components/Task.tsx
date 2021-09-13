@@ -1,13 +1,27 @@
-import React, { ChangeEvent, useState } from 'react'
-import s from '../styles/Home.module.scss'
+import { FormEvent, useRef, useState } from 'react'
+
+interface ITASK {
+    name: string,
+    done: boolean
+}
 
 export const Task = ():JSX.Element => {
 
-    const [newTask, setNewTask ] = useState('');
+    const [newTask, setNewTask ] = useState<string>('');
+    const [todoList, setTodoList] = useState<ITASK[]>([]);
+    const taskInput = useRef<HTMLInputElement>(null);
+    
+    const handleSubmit = ( e:FormEvent<HTMLFormElement> ) => {
+        e.preventDefault()
+        addTask(newTask)
+        setNewTask('');
+        taskInput.current?.focus();
+        console.log(todoList)
+    }
 
-    const handleSubmit = ( e:ChangeEvent<HTMLFormElement> ) => {
-        e.preventDefault();
-        console.log(newTask)
+    const addTask = ( name: string ) => {
+        const newTasks: ITASK[] = [ ...todoList, { name, done: false } ];
+        setTodoList( newTasks )
     }
     
     return (
@@ -16,10 +30,16 @@ export const Task = ():JSX.Element => {
                 <input
                     type="text"
                     onChange={(e) => setNewTask(e.target.value)}
+                    value={ newTask }
+                    ref={ taskInput }
                 />
                 <button>Save</button>
             </form>
-            <code className={s.code}>{ newTask }</code>
+            <ul>
+                { todoList.map( (item, i) => (
+                    <li key={i+1}>{item.name}</li>
+                ) ) }
+            </ul>
         </>
     );
 }
